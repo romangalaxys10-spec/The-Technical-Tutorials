@@ -18,15 +18,17 @@
 
 ## ⚡ The Core Problem in Web & Local AI Coding
 
-When building web applications or complex software using AI Agents—whether via web interfaces like **chat.z.ai** or local harness IDEs like **ZCode**, **AutoClaw**, or **OpenCode**—users frequently encounter a frustrating barrier: **Data & State Loss**.
+When building web applications or complex software using AI Agents—whether via web-based browser interfaces or local harness IDEs—developers across all platforms frequently encounter a common barrier: **Data & In-Memory State Loss**.
 
-### Why Does This Happen?
-1. **Ephemeral Cloud Containers (`chat.z.ai`)**: Web-based AI agents run inside temporary sandbox containers. If a container recycles, hits a scheduled task error, or encounters an Alibaba Cloud Function Compute (FC 412) pending state lock, uncommitted source code inside the sandbox can vanish.
-2. **Minimal Shell Control**: In web interfaces like `chat.z.ai`, users do not have a full interactive terminal to manually run `git push` or download zip archives.
-3. **Session Cache Corruption**: Local IDE harnesses can suffer state resets or stale AST indexing cache bloat.
+### Why Does This Happen? (An Industry-Wide Reality)
+This is an inherent architectural characteristic of **all modern cloud-hosted AI development environments, browser IDEs, and agent sandboxes across the entire AI ecosystem** (including v0, Bolt.new, Lovable, Replit, Claude Artifacts, Cursor Web, and Z.ai):
+
+1. **Ephemeral Cloud Sandboxes & MicroVMs**: Web-based AI agents operate inside temporary container sandboxes (e.g., Docker, E2B microVMs, AWS Lambda, Alibaba Cloud FC, or serverless instances). If a container recycles after inactivity, hits an execution timeout, experiences a scheduled task failure, or encounters cloud provider precondition holds (like HTTP 412/500 locks), any uncommitted source code stored only in local container memory vanishes.
+2. **Minimal Shell Control in Web Interfaces**: In browser-based AI chat interfaces, users interact primarily via natural language without direct interactive terminal access to run background backups or manually download zip archives.
+3. **Session Cache & Memory Bloat in Local IDEs**: Local desktop agent harnesses (ZCode, AutoClaw, OpenCode, Hermes CLI) accumulate session logs or stale AST indexing caches over long multi-turn sessions, which can trigger UI lag or session state resets.
 
 > [!WARNING]
-> Relying purely on in-memory web chat sandboxes risks losing your entire project codebase if the cloud container recycles or encounters a backend infrastructure reset.
+> Relying purely on ephemeral container memory in any web-based AI platform risks losing your uncommitted project code whenever a cloud sandbox container recycles or times out.
 
 ---
 
@@ -35,7 +37,7 @@ When building web applications or complex software using AI Agents—whether via
 By connecting your private GitHub repository to your AI agent session via a **GitHub Personal Access Token (PAT)**, you give the agent direct permission to commit and push code backups—including your **entire project workspace AND your complete chat history trajectory**—to your GitHub account automatically after every prompt completion.
 
 > [!TIP]
-> This pattern turns every web chat session into a production-grade automated Git pipeline with 100% data durability.
+> This pattern turns every web chat session across any AI platform into a production-grade automated Git pipeline with 100% data durability.
 
 ---
 
@@ -59,8 +61,8 @@ By connecting your private GitHub repository to your AI agent session via a **Gi
 
 ## 🔗 Step 2: Link GitHub to Your Agent Session
 
-### Scenario A: Web-Based Agents (`chat.z.ai`)
-Since you don't have direct terminal access in `chat.z.ai`, simply send this initialization prompt to the agent:
+### Scenario A: Web-Based Agents (`chat.z.ai`, v0, Bolt.new, Lovable)
+Send this initialization prompt to the agent:
 
 ```text
 Here is my GitHub repository details for backing up our project and full conversation transcript:
@@ -107,9 +109,9 @@ Mandatory Rules:
 
 ## 🔄 Step 4: Restoring & Continuing in a New Session or IDE
 
-If your web container recycles, your session times out, or you want to switch from `chat.z.ai` to a local IDE (like ZCode or OpenCode), use these exact prompts to instantly restore your project workspace and full conversation history without losing a single line of code or context.
+If your web container recycles, your session times out, or you want to switch from a web interface to a local IDE (like ZCode or OpenCode), use these exact prompts to instantly restore your project workspace and full conversation history without losing a single line of code or context.
 
-### Prompt for Restoring in a New Web Session (`chat.z.ai`):
+### Prompt for Restoring in a New Web Session:
 
 ```text
 I want to resume work on my existing project and restore our full chat history from my GitHub backup.
@@ -144,7 +146,7 @@ Steps:
 | Failure Scenario | Without GitHub PAT Auto-Push | With GitHub PAT Auto-Push |
 | :--- | :--- | :--- |
 | **Cloud Sandbox Container Reset** | Source code & chat history are lost permanently; user must rebuild from scratch. | 100% of code and chat transcript safe on GitHub. Open a new chat session, clone the repo, and resume in seconds. |
-| **Alibaba Cloud FC 412 / Pending Lock** | Production endpoint stuck on 412/500 error waiting for manual devops reset. | Open a new session, clone from GitHub, and deploy a fresh working endpoint URL instantly. |
+| **Cloud Service / 412 Pending Lock** | Production endpoint stuck on 412/500 error waiting for manual devops reset. | Open a new session, clone from GitHub, and deploy a fresh working endpoint URL instantly. |
 | **Peak-Hour Quota Multiplier Surge** | Re-generating code from scratch wastes 3x token quota during peak hours (14:00–18:00 UTC+8). | Zero token waste. Agent reads intact source code and chat history directly from GitHub. |
 | **Version History Disappearance** | Web chat version history fails to load or drops state. | Complete immutable git commit log and full `chat_history.md` markdown transcript. |
 
