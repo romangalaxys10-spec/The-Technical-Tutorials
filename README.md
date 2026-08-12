@@ -1,94 +1,30 @@
-# 🚀 Mastering AI Agent Workflows: Never Lose Code Again with GitHub PAT Auto-Push
+# 🚀 The Technical Tutorials
 
-> **Official Guide**: This guide is part of **[The Technical Tutorials](https://github.com/romangalaxys10-spec/The-Technical-Tutorials)** collection by the Z.ai Ambassador Team.  
-> 🌐 **Web Article Version**: Available at [claw.rommark.dev/blog/53-github-agent-workflow-tutorial.html](https://claw.rommark.dev/blog/53-github-agent-workflow-tutorial.html).
-
----
-
-## 📋 Table of Contents
-- [The Core Problem in Web & Local AI Coding](#-the-core-problem-in-web--local-ai-coding)
-- [The Solution: The GitHub PAT Auto-Push Protocol](#-the-solution-the-github-pat-auto-push-protocol)
-- [Step 1: Create Your GitHub Personal Access Token (PAT)](#-step-1-create-your-github-personal-access-token-pat)
-- [Step 2: Link GitHub to Your Agent Session](#-step-2-link-github-to-your-agent-session)
-- [Step 3: Master Agent Instructions Prompt](#-step-3-master-agent-instructions-prompt)
-- [Step 4: Restoring & Continuing in a New Session or IDE](#-step-4-restoring--continuing-in-a-new-session-or-ide)
-- [Use Cases & Mitigated Failure Modes](#-use-cases--mitigated-failure-modes)
+Welcome to **The Technical Tutorials** repository—a curated collection of production-grade technical guides, AI agent workflow protocols, prompt engineering workarounds, and developer tools maintained by the **Z.ai Ambassador Team**.
 
 ---
 
-## ⚡ The Core Problem in Web & Local AI Coding
+## 📚 Technical Tutorials & Guides Index
 
-When building web applications or complex software using AI Agents—whether via web-based browser interfaces or local harness IDEs—developers across all platforms frequently encounter a common barrier: **Data & In-Memory State Loss**.
-
-### Why Does This Happen? (An Industry-Wide Reality)
-This is an inherent architectural characteristic of **all modern cloud-hosted AI development environments, browser IDEs, and agent sandboxes across the entire AI ecosystem** (including v0, Bolt.new, Lovable, Replit, Claude Artifacts, Cursor Web, and Z.ai):
-
-1. **Ephemeral Cloud Sandboxes & MicroVMs**: Web-based AI agents operate inside temporary container sandboxes (e.g., Docker, E2B microVMs, AWS Lambda, Alibaba Cloud FC, or serverless instances). If a container recycles after inactivity, hits an execution timeout, experiences a scheduled task failure, or encounters cloud provider precondition holds (like HTTP 412/500 locks), any uncommitted source code stored only in local container memory vanishes.
-2. **Minimal Shell Control in Web Interfaces**: In browser-based AI chat interfaces, users interact primarily via natural language without direct interactive terminal access to run background backups or manually download zip archives.
-3. **Session Cache & Memory Bloat in Local IDEs**: Local desktop agent harnesses (ZCode, AutoClaw, OpenCode, Hermes CLI) accumulate session logs or stale AST indexing caches over long multi-turn sessions, which can trigger UI lag or session state resets.
-
-> [!WARNING]
-> Relying purely on ephemeral container memory in any web-based AI platform risks losing your uncommitted project code whenever a cloud sandbox container recycles or times out.
+| # | Guide Title | Topic / Scope | GFM Guide Link |
+| :--- | :--- | :--- | :--- |
+| **01** | **Mastering AI Agent Workflows: GitHub PAT Auto-Push Protocol** | Never lose code or chat history in ephemeral web containers (`chat.z.ai`, v0, Bolt.new, Lovable) or local IDEs. | [View Guide](./README.md) · [Web Article](https://claw.rommark.dev/blog/53-github-agent-workflow-tutorial.html) |
+| **02** | **Universal Token Efficiency Protocol v3.3.0** | 8 behavioral pillars for `AGENTS.md` / `CLAUDE.md` that cut context consumption by 50–80% (280K &rarr; 35K tokens). | [View Guide](./guides/02-token-efficiency-protocol.md) |
+| **03** | **Long-Horizon Agent Loop File Delivery & Tunnel Workaround** | Prompt workaround to generate public download URLs / tunnels for sandbox files. | [View Guide](./guides/03-long-horizon-file-tunnel-prompt.md) |
+| **04** | **Marcos Hernanz Agentic Engineering Principles** | 8 core rules for building software cleanly with autonomous AI coding agents. | [View Guide](./guides/04-agentic-engineering-principles.md) |
+| **05** | **Steve Jobs Product Design, Flow & Quality Standard** | 4 pillars for enforcing extreme simplicity, dark glassmorphism, and craftsman quality. | [View Guide](./guides/05-steve-jobs-design-quality-standard.md) |
+| **06** | **Diagnosing API Errors: Error 1313 (FUP Lock) vs Error 1305 (Capacity Surge)** | Troubleshooting developer rate limits, 30-day rolling cooldowns, and OpenCode context tuning. | [View Guide](./guides/06-error-1313-vs-1305-troubleshooting.md) |
+| **07** | **Ultra-Lightweight Local AWS Emulation with Floci Micro-VMs** | Test S3, DynamoDB, SQS, SNS, and Lambda locally (~13MB RAM, ~24ms boot) with zero AWS account required. | [View Guide](./guides/07-floci-local-aws-emulator.md) |
 
 ---
 
-## 🛠️ The Solution: The GitHub PAT Auto-Push Protocol
+## ⚡ Featured Guide: GitHub PAT Auto-Push Protocol
 
-By connecting your private GitHub repository to your AI agent session via a **GitHub Personal Access Token (PAT)**, you give the agent direct permission to commit and push code backups—including your **entire project workspace AND your complete chat history trajectory**—to your GitHub account automatically after every prompt completion.
+### 🔑 Quickstart Step 1: Generate PAT
+Create a classic GitHub Personal Access Token with **`repo`** scope.
 
-> [!TIP]
-> This pattern turns every web chat session across any AI platform into a production-grade automated Git pipeline with 100% data durability.
-
----
-
-## 🔑 Step 1: Create Your GitHub Personal Access Token (PAT)
-
-1. Log into your account on [GitHub.com](https://github.com).
-2. Click your profile avatar in the top-right corner &rarr; **Settings**.
-3. Scroll down the left sidebar and click **Developer settings**.
-4. Select **Personal access tokens** &rarr; **Tokens (classic)** (or Fine-grained tokens).
-5. Click **Generate new token (classic)**.
-6. Give your token a descriptive name (e.g., `Z.ai Agent Sync Token`).
-7. Set Expiration (e.g., `90 days` or `No expiration` for dedicated workflow bots).
-8. Check the **`repo`** checkbox (Full control of private repositories).
-9. Scroll to the bottom and click **Generate token**.
-10. **Copy your token immediately** (`ghp_xxxxxxxxxxxxxxxxxxxx`). *You will not be able to see it again!*
-
-> [!IMPORTANT]
-> Keep your PAT secure and never post it publicly in open channels.
-
----
-
-## 🔗 Step 2: Link GitHub to Your Agent Session
-
-### Scenario A: Web-Based Agents (`chat.z.ai`, v0, Bolt.new, Lovable)
-Send this initialization prompt to the agent:
-
-```text
-Here is my GitHub repository details for backing up our project and full conversation transcript:
-- Repository URL: https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-- Personal Access Token: ghp_YOUR_PERSONAL_ACCESS_TOKEN
-
-Please configure git remote using:
-git remote set-url origin https://ghp_YOUR_PERSONAL_ACCESS_TOKEN@github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-
-Master Rule: After every feature, UI layout update, or bug fix you implement, save our complete chat conversation transcript into `chat_history.md`, and automatically commit and push the entire workspace to my GitHub repository.
-```
-
-### Scenario B: Local IDE Harnesses (ZCode / AutoClaw / OpenCode)
-In your local project directory or terminal, configure your authenticated remote origin:
-
-```bash
-git init
-git remote add origin https://ghp_YOUR_PERSONAL_ACCESS_TOKEN@github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-git branch -M main
-```
-
----
-
-## 🤖 Step 3: Master Agent Instructions Prompt
-
-Copy and paste this system instruction into your agent prompt session:
+### 🔗 Quickstart Step 2: Agent Backup Prompt
+Send this directive to your web agent (`chat.z.ai`, v0, Bolt.new, Lovable) or local IDE:
 
 ```text
 [SYSTEM DIRECTIVE: AUTOMATED WORKSPACE & CHAT HISTORY BACKUP PROTOCOL]
@@ -102,55 +38,12 @@ Mandatory Rules:
    git commit -m "feat: update workspace files and append session chat history log"
    git push origin main
 4. If a push fails due to remote divergence, run `git pull --rebase origin main` and re-push.
-5. Confirm the commit hash and chat history backup status at the end of your response.
 ```
 
 ---
 
-## 🔄 Step 4: Restoring & Continuing in a New Session or IDE
+## 🤝 Contributing & Community
 
-If your web container recycles, your session times out, or you want to switch from a web interface to a local IDE (like ZCode or OpenCode), use these exact prompts to instantly restore your project workspace and full conversation history without losing a single line of code or context.
+These tutorials are maintained by **[romangalaxys10-spec](https://github.com/romangalaxys10-spec)** and the Z.ai Ambassador team. Have a tutorial or prompt workaround to share? Open an Issue or Pull Request!
 
-### Prompt for Restoring in a New Web Session:
-
-```text
-I want to resume work on my existing project and restore our full chat history from my GitHub backup.
-
-- Repository URL: https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-- Personal Access Token: ghp_YOUR_PERSONAL_ACCESS_TOKEN
-
-Instructions:
-1. Run `git clone https://ghp_YOUR_PERSONAL_ACCESS_TOKEN@github.com/YOUR_USERNAME/YOUR_REPO_NAME.git .` in the current workspace.
-2. Inspect the project directory, read `chat_history.md` and `README.md`, and summarize where we left off.
-3. Configure `git remote set-url origin https://ghp_YOUR_PERSONAL_ACCESS_TOKEN@github.com/YOUR_USERNAME/YOUR_REPO_NAME.git`.
-4. Continue enforcing our Auto-Commit & Chat History Backup rule after every update.
-```
-
-### Prompt for Restoring in a Local Harness IDE (ZCode / AutoClaw / OpenCode):
-
-```text
-Please restore my entire codebase and chat history from remote GitHub repository:
-`https://ghp_YOUR_PERSONAL_ACCESS_TOKEN@github.com/YOUR_USERNAME/YOUR_REPO_NAME.git`
-
-Steps:
-1. Pull the latest `main` branch into the local workspace.
-2. Check `git log -n 5` and read `chat_history.md` to restore full session context.
-3. Install project dependencies (`npm install` or `pip install -r requirements.txt`).
-4. Read the project structure and let me know when you are ready to continue.
-```
-
----
-
-## 📊 Use Cases & Mitigated Failure Modes
-
-| Failure Scenario | Without GitHub PAT Auto-Push | With GitHub PAT Auto-Push |
-| :--- | :--- | :--- |
-| **Cloud Sandbox Container Reset** | Source code & chat history are lost permanently; user must rebuild from scratch. | 100% of code and chat transcript safe on GitHub. Open a new chat session, clone the repo, and resume in seconds. |
-| **Cloud Service / 412 Pending Lock** | Production endpoint stuck on 412/500 error waiting for manual devops reset. | Open a new session, clone from GitHub, and deploy a fresh working endpoint URL instantly. |
-| **Peak-Hour Quota Multiplier Surge** | Re-generating code from scratch wastes 3x token quota during peak hours (14:00–18:00 UTC+8). | Zero token waste. Agent reads intact source code and chat history directly from GitHub. |
-| **Version History Disappearance** | Web chat version history fails to load or drops state. | Complete immutable git commit log and full `chat_history.md` markdown transcript. |
-
----
-
-> [!NOTE]
-> Maintained by **[Z.ai Ambassador Team](https://github.com/romangalaxys10-spec)**. For web article version, visit [claw.rommark.dev/blog/53-github-agent-workflow-tutorial.html](https://claw.rommark.dev/blog/53-github-agent-workflow-tutorial.html).
+&copy; 2026 **Z.ai Ambassador Workspace** · Deployed at [claw.rommark.dev/blog](https://claw.rommark.dev/blog/)
