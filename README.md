@@ -8,7 +8,7 @@ Welcome to **The Technical Tutorials** repository—a curated collection of prod
 
 | # | Guide Title | Topic / Scope | GFM Guide Link |
 | :--- | :--- | :--- | :--- |
-| **01** | **Mastering AI Agent Workflows: GitHub PAT Auto-Push Protocol** | Never lose code or chat history in ephemeral web containers (v0, Bolt.new, Lovable, chat.z.ai) or local IDEs. | [View Guide](./README.md) · [Web Article](https://claw.rommark.dev/blog/53-github-agent-workflow-tutorial.html) |
+| **01** | **Mastering AI Agent Workflows: GitHub PAT Auto-Push Protocol** | Never lose code or chat history in ephemeral web containers (v0, Bolt.new, Lovable, chat.z.ai) or local IDEs. | [View Guide](./guides/01-github-agent-workflow-tutorial.md) · [Web Article](https://claw.rommark.dev/blog/53-github-agent-workflow-tutorial.html) |
 | **02** | **Universal Token Efficiency Protocol v3.3.0** | 8 behavioral pillars for `AGENTS.md` / `CLAUDE.md` that cut context consumption by 50–80% (280K &rarr; 35K tokens). | [View Guide](./guides/02-token-efficiency-protocol.md) |
 | **03** | **Long-Horizon Agent Loop File Delivery & Tunnel Workaround** | Prompt workaround to generate public download URLs / tunnels for sandbox files. | [View Guide](./guides/03-long-horizon-file-tunnel-prompt.md) |
 | **04** | **Marcos Hernanz Agentic Engineering Principles** | 8 core rules for building software cleanly with autonomous AI coding agents. | [View Guide](./guides/04-agentic-engineering-principles.md) |
